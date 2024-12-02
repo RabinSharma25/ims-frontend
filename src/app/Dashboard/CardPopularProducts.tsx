@@ -6,7 +6,12 @@ import Image from "next/image";
 
 const CardPopularProducts = () => {
   const { data: dashboardMetrics, isLoading } = useGetDashboardMetricsQuery();
-
+    console.log("DashboardMetrics:",  dashboardMetrics)
+    console.log("DashboardMetrics.ProductList:",dashboardMetrics)
+    const data = JSON.stringify(dashboardMetrics)
+    const products = data[0].ProductList
+    console.log("json",)
+    ;
   return (
     <div className="row-span-3 xl:row-span-6 bg-white shadow-md rounded-2xl pb-16">
       {isLoading ? (
@@ -18,9 +23,9 @@ const CardPopularProducts = () => {
           </h3>
           <hr />
           <div className="overflow-auto h-full">
-            {dashboardMetrics?.popularProducts.map((product) => (
+            {dashboardMetrics?.ProductList.map((product) => (
               <div
-                key={product.productId}
+                key={product.id}
                 className="flex items-center justify-between gap-3 px-5 py-7 border-b"
               >
                 <div className="flex items-center gap-3">

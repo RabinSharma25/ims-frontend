@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+// Define your interfaces for the data
 export interface Product {
-  productId: string;
+  id: string;
   name: string;
   price: number;
   rating?: number;
@@ -42,13 +43,29 @@ export interface ExpenseByCategorySummary {
   date: string;
 }
 
-export interface DashboardMetrics {
-  popularProducts: Product[];
-  salesSummary: SalesSummary[];
-  purchaseSummary: PurchaseSummary[];
-  expenseSummary: ExpenseSummary[];
-  expenseByCategorySummary: ExpenseByCategorySummary[];
+export interface ApiResponse {
+  data: DashboardData;
 }
+
+export interface DashboardData {
+  ProductList: Product[];
+  SalesSummaryList: SalesSummary[];
+  PurchaseSummaryList: PurchaseSummary[];
+  ExpenseSummaryList: ExpenseSummary[];
+  ExpenseByCategoryList: ExpenseByCategorySummary[];
+}
+
+export interface DashboardData {
+    DashboardData: Array<{
+      ProductList: Product[];
+      SalesSummaryList: any[];
+      PurchaseSummaryList: any[];
+      ExpenseSummaryList: any[];
+      ExpenseByCategoryList: any[];
+    }>;
+  }
+
+
 
 export interface User {
   userId: string;
@@ -56,45 +73,23 @@ export interface User {
   email: string;
 }
 
+// Set up the API service
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  reducerPath: "api",
-  tagTypes: ["DashboardMetrics", "Products", "Users", "Expenses"],
-  endpoints: (build) => ({
-    getDashboardMetrics: build.query<DashboardMetrics, void>({
-      query: () => "/dashboard/getDashboardMetrices",
-      providesTags: ["DashboardMetrics"],
-    }),
-    getProducts: build.query<Product[], string | void>({
-      query: (search) => ({
-        url: "/products",
-        params: search ? { search } : {},
+    baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
+    reducerPath: "api",
+    tagTypes: ["DashboardData", "Products", "Users", "Expenses"],
+    endpoints: (build) => ({
+      getDashboardMetrics: build.query<DashboardData, void>({
+        query: () => "/dashboard/getDashboardMetrices", // Ensure this is the correct API endpoint
+        transformResponse: (response: ApiResponse) => {
+          console.log("API Response:", response); // Log the full response
+          return response.data; // Extract the data field
+        },
+        providesTags: ["DashboardData"],
       }),
-      providesTags: ["Products"],
     }),
-    createProduct: build.mutation<Product, NewProduct>({
-      query: (newProduct) => ({
-        url: "/products",
-        method: "POST",
-        body: newProduct,
-      }),
-      invalidatesTags: ["Products"],
-    }),
-    getUsers: build.query<User[], void>({
-      query: () => "/users",
-      providesTags: ["Users"],
-    }),
-    getExpensesByCategory: build.query<ExpenseByCategorySummary[], void>({
-      query: () => "/expenses",
-      providesTags: ["Expenses"],
-    }),
-  }),
-});
-
+  });
+  
 export const {
-  useGetDashboardMetricsQuery,
-  useGetProductsQuery,
-  useCreateProductMutation,
-  useGetUsersQuery,
-  useGetExpensesByCategoryQuery,
+  useGetDashboardMetricsQuery
 } = api;

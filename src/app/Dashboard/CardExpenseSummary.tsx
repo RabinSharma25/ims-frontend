@@ -14,10 +14,10 @@ import {
   const CardExpenseSummary = () => {
     const { data: dashboardMetrics, isLoading } = useGetDashboardMetricsQuery();
   
-    const expenseSummary = dashboardMetrics?.expenseSummary[0];
+    const expenseSummary = dashboardMetrics?.ExpenseSummaryList[0];
   
     const expenseByCategorySummary =
-      dashboardMetrics?.expenseByCategorySummary || [];
+      dashboardMetrics?.ExpenseByCategoryList || [];
   
     const expenseSums = expenseByCategorySummary.reduce(
       (acc: ExpenseSums, item: ExpenseByCategorySummary) => {
