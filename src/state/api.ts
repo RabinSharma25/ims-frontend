@@ -45,7 +45,7 @@ export interface ExpenseByCategorySummary {
 }
 
 export interface User {
-  userId: string;
+  id: string;
   name: string;
   email: string;
 }
@@ -76,11 +76,24 @@ export interface ProductApiResponse{
   data: Products;
 }
 
+export interface Users{
+  UserList:User[]
+}
+export interface UserApiResponse{
+  code: number;
+  success: boolean;
+  status: string;
+  message: string;
+  data: Users
+}
+
+
+
 // Set up the API service
 export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
     reducerPath: "api",
-    tagTypes: ["DashboardApiResponse", "ProductApiResponse", "Users", "Expenses"],
+    tagTypes: ["DashboardApiResponse", "ProductApiResponse", "UserApiResponse", "Expenses"],
     endpoints: (build) => ({
       getDashboardMetrics: build.query<DashboardApiResponse, void>({
         query: () => "/dashboard/getDashboardMetrices", // Ensure this is the correct API endpoint
@@ -102,9 +115,9 @@ export const api = createApi({
         }),
         invalidatesTags: ["ProductApiResponse"],
       }),
-      getUsers: build.query<User[], void>({
-        query: () => "/users",
-        providesTags: ["Users"],
+      getUsers: build.query<UserApiResponse, void>({
+        query: () => "/user/getUsers",
+        providesTags: ["UserApiResponse"],
       }),
       getExpensesByCategory: build.query<ExpenseByCategorySummary[], void>({
         query: () => "/expenses",
