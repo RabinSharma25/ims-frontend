@@ -43,8 +43,12 @@ export interface ExpenseByCategorySummary {
   date: string;
 }
 
-export interface ApiResponse {
-  data: DashboardData;
+export interface DashboardApiResponse {
+  code: number;
+  success: boolean;
+  status: string;
+  message: string;
+  data: DashboardData[];
 }
 
 export interface DashboardData {
@@ -55,15 +59,7 @@ export interface DashboardData {
   ExpenseByCategoryList: ExpenseByCategorySummary[];
 }
 
-export interface DashboardData {
-    DashboardData: Array<{
-      ProductList: Product[];
-      SalesSummaryList: any[];
-      PurchaseSummaryList: any[];
-      ExpenseSummaryList: any[];
-      ExpenseByCategoryList: any[];
-    }>;
-  }
+
 
 
 
@@ -77,15 +73,11 @@ export interface User {
 export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
     reducerPath: "api",
-    tagTypes: ["DashboardData", "Products", "Users", "Expenses"],
+    tagTypes: ["DashboardApiResponse", "Products", "Users", "Expenses"],
     endpoints: (build) => ({
-      getDashboardMetrics: build.query<DashboardData, void>({
+      getDashboardMetrics: build.query<DashboardApiResponse, void>({
         query: () => "/dashboard/getDashboardMetrices", // Ensure this is the correct API endpoint
-        transformResponse: (response: ApiResponse) => {
-          console.log("API Response:", response); // Log the full response
-          return response.data; // Extract the data field
-        },
-        providesTags: ["DashboardData"],
+        providesTags: ["DashboardApiResponse"],
       }),
     }),
   });
@@ -93,3 +85,5 @@ export const api = createApi({
 export const {
   useGetDashboardMetricsQuery
 } = api;
+
+

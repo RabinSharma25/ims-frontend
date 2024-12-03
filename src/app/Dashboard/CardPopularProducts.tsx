@@ -7,9 +7,9 @@ import Image from "next/image";
 const CardPopularProducts = () => {
   const { data: dashboardMetrics, isLoading } = useGetDashboardMetricsQuery();
     console.log("DashboardMetrics:",  dashboardMetrics)
-    console.log("DashboardMetrics.ProductList:",dashboardMetrics)
-    const data = JSON.stringify(dashboardMetrics)
-    const products = data[0].ProductList
+    console.log("DashboardMetrics.ProductList:", dashboardMetrics?.data[0].ProductList)
+    // const data = JSON.stringify(dashboardMetrics)
+    // const products = data[0].ProductList
     console.log("json",)
     ;
   return (
@@ -23,13 +23,13 @@ const CardPopularProducts = () => {
           </h3>
           <hr />
           <div className="overflow-auto h-full">
-            {dashboardMetrics?.ProductList.map((product) => (
+            {dashboardMetrics?.data[0].ProductList.map((product) => (
               <div
                 key={product.id}
                 className="flex items-center justify-between gap-3 px-5 py-7 border-b"
               >
                 <div className="flex items-center gap-3">
-                  <Image
+                  {/* <Image
                     src={`https://s3-inventorymanagement.s3.us-east-2.amazonaws.com/product${
                       Math.floor(Math.random() * 3) + 1
                     }.png`}
@@ -37,7 +37,8 @@ const CardPopularProducts = () => {
                     width={48}
                     height={48}
                     className="rounded-lg w-14 h-14"
-                  />
+                  /> */}
+                  Image
                   <div className="flex flex-col justify-between gap-1">
                     <div className="font-bold text-gray-700">
                       {product.name}
