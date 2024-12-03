@@ -1,3 +1,5 @@
+
+
 import { useGetDashboardMetricsQuery } from "@/state/api";
 import { ShoppingBag } from "lucide-react";
 import React from "react";
@@ -6,12 +8,7 @@ import Image from "next/image";
 
 const CardPopularProducts = () => {
   const { data: dashboardMetrics, isLoading } = useGetDashboardMetricsQuery();
-    console.log("DashboardMetrics:",  dashboardMetrics)
-    console.log("DashboardMetrics.ProductList:", dashboardMetrics?.data[0].ProductList)
-    // const data = JSON.stringify(dashboardMetrics)
-    // const products = data[0].ProductList
-    console.log("json",)
-    ;
+
   return (
     <div className="row-span-3 xl:row-span-6 bg-white shadow-md rounded-2xl pb-16">
       {isLoading ? (
@@ -23,7 +20,7 @@ const CardPopularProducts = () => {
           </h3>
           <hr />
           <div className="overflow-auto h-full">
-            {dashboardMetrics?.data[0].ProductList.map((product) => (
+            {dashboardMetrics?.data[0]?.ProductList.map((product) => (
               <div
                 key={product.id}
                 className="flex items-center justify-between gap-3 px-5 py-7 border-b"
@@ -37,8 +34,8 @@ const CardPopularProducts = () => {
                     width={48}
                     height={48}
                     className="rounded-lg w-14 h-14"
-                  /> */}
-                  Image
+                  /> */} 
+                  img
                   <div className="flex flex-col justify-between gap-1">
                     <div className="font-bold text-gray-700">
                       {product.name}

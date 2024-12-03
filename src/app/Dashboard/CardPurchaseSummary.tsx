@@ -13,7 +13,7 @@ import {
 
 const CardPurchaseSummary = () => {
   const { data, isLoading } = useGetDashboardMetricsQuery();
-  const purchaseData = data?.PurchaseSummaryList || [];
+  const purchaseData = data?.data[2]?.PurchaseSummaryList || [];
 
   const lastDataPoint = purchaseData[purchaseData.length - 1] || null;
 

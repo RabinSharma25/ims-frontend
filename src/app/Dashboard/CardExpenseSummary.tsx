@@ -14,10 +14,10 @@ import {
   const CardExpenseSummary = () => {
     const { data: dashboardMetrics, isLoading } = useGetDashboardMetricsQuery();
   
-    const expenseSummary = dashboardMetrics?.ExpenseSummaryList[0];
+    const expenseSummary = dashboardMetrics?.data[3]?.ExpenseSummaryList;
   
     const expenseByCategorySummary =
-      dashboardMetrics?.ExpenseByCategoryList || [];
+      dashboardMetrics?.data[4]?.ExpenseByCategoryList || [];
   
     const expenseSums = expenseByCategorySummary.reduce(
       (acc: ExpenseSums, item: ExpenseByCategorySummary) => {
@@ -112,7 +112,7 @@ import {
                     <p className="text-sm">
                       Average:{" "}
                       <span className="font-semibold">
-                        ${expenseSummary.totalExpenses.toFixed(2)}
+                        ${expenseSummary[0].totalExpenses.toFixed(2)}
                       </span>
                     </p>
                   </div>
