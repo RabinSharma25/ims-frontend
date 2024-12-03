@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 import Header from "@/app/(components)/Header";
 
 type ProductFormData = {
+  id:string
   name: string;
   price: number;
   stockQuantity: number;
@@ -21,7 +22,7 @@ const CreateProductModal = ({
   onCreate,
 }: CreateProductModalProps) => {
   const [formData, setFormData] = useState({
-    productId: v4(),
+    id: v4(),
     name: "",
     price: 0,
     stockQuantity: 0,

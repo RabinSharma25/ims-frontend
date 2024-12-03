@@ -1,6 +1,6 @@
 "use client";
 
-import { useCreateProductMutation, useGetProductsQuery } from "@/state/api";
+import { useAddProductMutation, useGetProductsQuery } from "@/state/api";
 import { PlusCircleIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
 import Header from "@/app/(components)/Header";
@@ -9,6 +9,7 @@ import CreateProductModal from "./CreateProductModal";
 import Image from "next/image";
 
 type ProductFormData = {
+  id:string
   name: string;
   price: number;
   stockQuantity: number;
@@ -25,7 +26,7 @@ const Products = () => {
   //   isError,
   // } = useGetProductsQuery(searchTerm);
 
-  const [createProduct] = useCreateProductMutation();
+  const [createProduct] = useAddProductMutation();
   const handleCreateProduct = async (productData: ProductFormData) => {
     await createProduct(productData);
   };
@@ -66,7 +67,7 @@ const Products = () => {
         <Header name="Products" />
         <button
           className="flex items-center bg-blue-500 hover:bg-blue-700 text-gray-200 font-bold py-2 px-4 rounded"
-          // onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsModalOpen(true)}
         >
           <PlusCircleIcon className="w-5 h-5 mr-2 !text-gray-200" /> Create
           Product
